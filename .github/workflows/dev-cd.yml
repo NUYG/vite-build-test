@@ -3,14 +3,11 @@ name: Cafe CD Staging
 on:
   push:
     branches:
-      - develop
       - staging
-      - cd-git-action
   pull_request:
     types:
       - closed
     branches:
-      - develop
       - staging
 
 jobs:
@@ -36,6 +33,9 @@ jobs:
           fi
       - run: npm run build-only --if-present
 
+      - name: Copy Assets
+        run: cp -r src/assets/ dist/src/assets/
+
       - uses: actions/upload-artifact@v3
         with:
           name: Build
@@ -55,7 +55,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: Build
-          path: build
+          path: fe-staging-3
 
       - name: Copy to server
         uses: appleboy/scp-action@v0.1.4
@@ -64,4 +64,4 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           username: ${{ secrets.DEV_USER }}
           source: "build/*"
-          target: "/var/www/sites/staging-crm/fe-staging-2/"
+          target: "/var/www/sites/staging-crm/"
