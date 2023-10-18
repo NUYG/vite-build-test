@@ -1,4 +1,4 @@
-name: Cafe CD Staging
+name: Cafe CD Staging*
 
 on:
   pull_request:
