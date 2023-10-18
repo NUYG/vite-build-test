@@ -1,0 +1,64 @@
+name: Cafe CD Dev
+
+on:
+  push:
+    branches:
+      - develop
+      - cd-git-action
+  pull_request:
+    types:
+      - closed
+    branches:
+      - develop
+
+jobs:
+  build_code:
+    name: Build code
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup NodeJs
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
+      - run: npm run build-only --if-present
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Build
+          path: dist
+
+  download_code:
+    name: Download built code
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    needs: build_code
+
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: Build
+          path: build
+
+      - name: Copy to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "build/*"
+          target: "/var/www/sites/build-dev/"

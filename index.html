@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="manifest"  id="dynamic-manifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover,user-scalable=no">
+    <meta name="theme-color" content="#1c1c1c" />
+    <title>More</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        if ('serviceWorker' in navigator  ) {
+          window.addEventListener('load', () => {
+            // Firebase
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then(registration => {
+              console.log('Service worker registered:', registration);
+            })
+            .catch(error => {
+              console.error('Service worker registration failed:', error);
+            });
+
+            // Offline cache controller
+            navigator.serviceWorker.register('/sw-offline.js')
+            .then(registration => {
+              console.log('Offline Worker registered successfully:', registration);
+            })
+            .catch(error => {
+              console.log('Offline Worker registration failed:', error);
+            });
+          });
+        }
+    </script>
+    <script type="module">
+        import manifest from './public/manifestIconConfig'
+        const manifestString = JSON.stringify(manifest);
+        const blob = new Blob([manifestString], { type: 'application/json' });
+        document.getElementById('dynamic-manifest').href = URL.createObjectURL(blob);
+    </script>
+</head>
+<body>
+<div id="app"></div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
