@@ -13,7 +13,7 @@ on:
 jobs:
   build_code:
     name: Build code
-
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +43,7 @@ jobs:
 
   download_code:
     name: Download built code
-
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     permissions:
@@ -63,5 +63,5 @@ jobs:
           host: ${{ secrets.DEV_HOST }}
           key: ${{ secrets.PRIVATE_KEY }}
           username: ${{ secrets.DEV_USER }}
-          source: "build/*"
+          source: "fe-staging-3/*"
           target: "/var/www/sites/staging-crm/"
