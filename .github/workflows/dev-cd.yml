@@ -1,9 +1,6 @@
 name: Cafe CD Staging
 
 on:
-  push:
-    branches:
-      - staging
   pull_request:
     types:
       - closed
