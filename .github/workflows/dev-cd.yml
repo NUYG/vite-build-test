@@ -37,6 +37,7 @@ jobs:
         with:
           name: Build
           path: dist
+          retention-days: 1
 
   download_code:
     name: Download built code
