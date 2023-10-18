@@ -1,4 +1,4 @@
-name: Cafe CD Dev
+name: Cafe CD Staging
 
 on:
   push:
