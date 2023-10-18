@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - develop
+      - staging
       - cd-git-action
   pull_request:
     types:
       - closed
     branches:
       - develop
+      - staging
 
 jobs:
   build_code:
@@ -61,4 +63,4 @@ jobs:
           host: ${{ secrets.HOST }}
           key: ${{ secrets.PRIVATE_KEY }}
           source: "build/*"
-          target: "/var/www/sites/build-dev/"
+          target: "/var/www/sites/staging-crm/fe-staging-2/"
