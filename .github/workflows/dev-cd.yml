@@ -60,7 +60,8 @@ jobs:
       - name: Copy to server
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.DEV_HOST }}
           key: ${{ secrets.PRIVATE_KEY }}
+          username: ${{ secrets.DEV_USER }}
           source: "build/*"
           target: "/var/www/sites/staging-crm/fe-staging-2/"
